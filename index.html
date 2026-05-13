@@ -545,10 +545,13 @@ async function loadData() {
       } else { showErr(); }
       resolve();
     };
-    script.onerror = function() { showErr(); resolve(); };
+    script.onerror = function() { 
+      if (!allData.length) showErr(); 
+      resolve(); 
+    };
     script.src = API_URL + '?callback=' + cb + '&t=' + Date.now();
     document.head.appendChild(script);
-    setTimeout(() => { showErr(); resolve(); }, 10000);
+    // no global timeout — data loads fine
   });
 }
 
