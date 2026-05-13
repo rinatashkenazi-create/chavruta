@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>חברותא מבטולוגיה ערב</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Hebrew:wght@300;400;500;600&family=Noto+Serif+Hebrew:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --pink:#D4537E;--pink-light:#FBEAF0;--pink-border:#F4C0D1;
+  --pink-dark:#72243E;--pink-deep:#4B1528;--pink-mid:#993556;
+  --teal:#0F6E56;--teal-light:#E1F5EE;--teal-mid:#5DCAA5;
+  --amber-bg:#FAEEDA;--amber-text:#633806;
+  --purple-bg:#EEEDFE;--purple-text:#3C3489;
+  --white:#FFFFFF;--bg:#FDF7FA;
+  --radius:14px;--radius-sm:8px;
+  --shadow:0 1px 8px rgba(180,60,100,.07);
+  --shadow-md:0 4px 16px rgba(180,60,100,.10);
+}
+html{scroll-behavior:smooth}
+body{font-family:'Noto Sans Hebrew',sans-serif;background:var(--bg);color:var(--pink-deep);min-height:100vh;line-height:1.6}
+.hero{background:var(--pink-light);border-bottom:1px solid var(--pink-border);padding:1.6rem 1.2rem 1.2rem;text-align:center}
+.hero-badge{display:inline-block;background:var(--pink-border);color:var(--pink-dark);font-size:11px;font-weight:600;letter-spacing:.07em;padding:.25rem .9rem;border-radius:50px;margin-bottom:.65rem}
+.hero h1{font-family:'Noto Serif Hebrew',serif;font-size:clamp(1.4rem,4vw,1.9rem);font-weight:700;color:var(--pink-dark);margin-bottom:.2rem}
+.hero h1 span{color:var(--pink)}
+.hero-sub{font-size:.85rem;color:var(--pink-mid)}
+.notice{background:var(--pink-light);border-right:3px solid var(--pink-border);padding:.6rem 1rem;font-size:.78rem;color:var(--pink-dark);display:flex;align-items:center;gap:.5rem}
+.wrap{max-width:680px;margin:0 auto;padding:1rem 1rem 3rem}
+.tabs{display:flex;background:var(--white);border:1px solid var(--pink-border);border-radius:var(--radius);padding:4px;gap:4px;margin-bottom:1.2rem;box-shadow:var(--shadow)}
+.tab{flex:1;padding:.5rem .3rem;font-size:.8rem;font-family:'Noto Sans Hebrew',sans-serif;font-weight:500;color:var(--pink-mid);border:none;background:none;border-radius:10px;cursor:pointer;transition:all .2s;text-align:center;line-height:1.3}
+.tab.active{background:var(--pink);color:#fff;box-shadow:0 2px 8px rgba(212,83,126,.25)}
+.section{display:none}.section.active{display:block}
+.cards-list{display:flex;flex-direction:column;gap:10px}
+.card{background:var(--white);border:1px solid var(--pink-border);border-radius:var(--radius);padding:1rem 1.1rem;box-shadow:var(--shadow);border-right:3px solid var(--pink-border);transition:box-shadow .2s}
+.card:hover{box-shadow:var(--shadow-md)}
+.card.enrichment{border-right-color:var(--teal-mid)}
+.card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:.5rem;margin-bottom:.5rem;flex-wrap:wrap}
+.card-name{font-size:.9rem;font-weight:600;color:var(--pink-deep)}
+.card-date{font-size:.72rem;color:var(--pink-mid)}
+.pill{font-size:.68rem;font-weight:600;padding:.2rem .65rem;border-radius:50px;white-space:nowrap}
+.s-w{background:var(--amber-bg);color:var(--amber-text)}
+.s-p{background:var(--purple-bg);color:var(--purple-text)}
+.s-s,.s-d{background:var(--teal-light);color:var(--teal)}
+.card-topic{font-size:.85rem;color:#2C1018;line-height:1.65;margin-bottom:.75rem}
+.card-meta{font-size:.72rem;color:var(--pink-mid);margin-bottom:.6rem}
+.card-footer{display:flex;align-items:center;justify-content:space-between;padding-top:.65rem;border-top:1px solid var(--pink-light);gap:.5rem;flex-wrap:wrap}
+.metav-label{font-size:.72rem;color:var(--pink-mid)}
+.metav-name{font-size:.82rem;font-weight:600;color:var(--pink-dark)}
+.btn-reg{font-size:.75rem;padding:.35rem .85rem;border-radius:50px;border:1px solid var(--pink-border);color:var(--pink-dark);background:var(--pink-light);cursor:pointer;font-family:'Noto Sans Hebrew',sans-serif;transition:all .2s;white-space:nowrap}
+.btn-reg:hover{background:var(--pink-border)}
+.btn-sm{font-size:.72rem;padding:.28rem .55rem;border-radius:50px;border:1px solid var(--pink-border);color:var(--pink-mid);background:none;cursor:pointer;font-family:'Noto Sans Hebrew',sans-serif;transition:all .2s}
+.btn-sm:hover{background:var(--pink-light)}
+.btn-sm.danger{border-color:#F4C0C0;color:#A32D2D}
+.btn-sm.danger:hover{background:#FFF0F0}
+.empty{text-align:center;padding:2.5rem 1rem;color:var(--pink-mid)}
+.empty-icon{font-size:2rem;margin-bottom:.5rem;display:block}
+.form-card{background:var(--white);border:1px solid var(--pink-border);border-radius:var(--radius);padding:1.3rem;box-shadow:var(--shadow)}
+.form-title{font-family:'Noto Serif Hebrew',serif;font-size:1rem;font-weight:700;color:var(--pink-dark);margin-bottom:1rem;padding-bottom:.65rem;border-bottom:1px solid var(--pink-border)}
+.field{margin-bottom:.9rem}
+.field label{display:block;font-size:.78rem;font-weight:600;color:var(--pink-dark);margin-bottom:.3rem}
+.field input,.field textarea,.field select{width:100%;padding:.6rem .85rem;border:1.5px solid var(--pink-border);border-radius:var(--radius-sm);font-family:'Noto Sans Hebrew',sans-serif;font-size:.88rem;color:#2C1018;background:#fff;transition:border-color .2s;outline:none;-webkit-appearance:none;appearance:none}
+.field input:focus,.field textarea:focus,.field select:focus{border-color:var(--pink);box-shadow:0 0 0 3px rgba(212,83,126,.1)}
+.field textarea{resize:vertical;min-height:90px}
+.field-note{font-size:.72rem;color:var(--pink-mid);margin-top:.25rem}
+.char-count{font-size:.68rem;color:var(--pink-mid);text-align:left;margin-top:2px}
+.char-count.warn{color:#C05A3A}
+.btn-main{width:100%;padding:.75rem;border:none;border-radius:var(--radius-sm);font-family:'Noto Sans Hebrew',sans-serif;font-size:.9rem;font-weight:600;cursor:pointer;margin-top:.3rem;transition:all .2s}
+.btn-pink{background:var(--pink);color:#fff}.btn-pink:hover{background:#993556}
+.btn-teal{background:var(--teal);color:#fff}.btn-teal:hover{background:#085041}
+.btn-main:active{transform:scale(.98)}
+.btn-main:disabled{opacity:.5;cursor:not-allowed}
+.sub-tabs{display:flex;gap:6px;margin-bottom:1rem}
+.sub-tab{flex:1;padding:.5rem;font-size:.82rem;font-family:'Noto Sans Hebrew',sans-serif;font-weight:500;border:1.5px solid var(--pink-border);border-radius:var(--radius-sm);background:var(--pink-light);color:var(--pink-mid);cursor:pointer;transition:all .2s;text-align:center}
+.sub-tab.active{background:var(--pink);border-color:var(--pink);color:#fff}
+.modal-wrap{display:none;position:fixed;inset:0;background:rgba(75,21,40,.4);z-index:100;align-items:center;justify-content:center;padding:1.2rem}
+.modal-wrap.open{display:flex}
+.modal{background:#fff;border-radius:var(--radius);padding:1.5rem;width:100%;max-width:400px;box-shadow:0 8px 40px rgba(180,60,100,.18);max-height:90vh;overflow-y:auto}
+.modal h3{font-family:'Noto Serif Hebrew',serif;font-size:1.05rem;font-weight:700;color:var(--pink-dark);margin-bottom:1rem}
+.modal-btns{display:flex;gap:8px;margin-top:1rem}
+.modal-btns button{flex:1;padding:.65rem;border-radius:var(--radius-sm);font-family:'Noto Sans Hebrew',sans-serif;font-size:.85rem;font-weight:500;cursor:pointer;border:1.5px solid var(--pink-border);background:var(--pink-light);color:var(--pink-dark);transition:all .2s}
+.modal-btns .confirm{background:var(--pink);color:#fff;border-color:var(--pink)}
+.modal-btns .del-btn{background:#C0392B;color:#fff;border-color:#C0392B}
+.toast{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%) translateY(80px);background:var(--pink-deep);color:#fff;padding:.6rem 1.4rem;border-radius:50px;font-size:.82rem;font-family:'Noto Sans Hebrew',sans-serif;z-index:200;transition:transform .3s ease;white-space:nowrap;pointer-events:none}
+.toast.show{transform:translateX(-50%) translateY(0)}
+.page-footer{text-align:center;font-size:.72rem;color:var(--pink-mid);padding:1.5rem 1rem 2rem;opacity:.7}
+@media(min-width:500px){.hero{padding:2rem 2rem 1.5rem}.wrap{padding:1.2rem 1.5rem 3rem}}
+</style>
+</head>
+<body>
+<div class="hero">
+  <div class="hero-badge">שיטת תמיכה מבטולוגית · שנה ב׳</div>
+  <h1>חברותא <span>מבטולוגיה</span> ערב</h1>
+  <p class="hero-sub">ימי א׳, ה׳ · 21:00</p>
+</div>
+<div class="notice">🔒 המידע חסוי ונשמר בקרב הקבוצה בלבד — הרשאות מנוהלות על ידי רינת</div>
+<div class="wrap">
+<div class="tabs">
+  <button class="tab active" onclick="showTab('cases')">📋 נושאי הבטה</button>
+  <button class="tab" onclick="showTab('enrichments')">✨ העשרות</button>
+  <button class="tab" onclick="showTab('new')">➕ הגשה חדשה</button>
+</div>
+<div class="section active" id="tab-cases"><div class="cards-list" id="casesList"><div class="empty"><span class="empty-icon">⏳</span>טוענת...</div></div></div>
+<div class="section" id="tab-enrichments"><div class="cards-list" id="enrichList"><div class="empty"><span class="empty-icon">⏳</span>טוענת...</div></div></div>
+<div class="section" id="tab-new">
+  <div class="sub-tabs">
+    <button class="sub-tab active" id="st-case" onclick="switchSub('case')">נושא הבטה</button>
+    <button class="sub-tab" id="st-enrich" onclick="switchSub('enrich')">הצעת העשרה</button>
+  </div>
+  <div id="form-case" class="form-card">
+    <div class="form-title">🔥 הגשת נושא הבטה</div>
+    <div class="field"><label>שם מלא מביטה</label><input type="text" id="fn" placeholder="שם פרטי ומשפחה"></div>
+    <div class="field">
+      <label>נושא / סיטואציה / קושי</label>
+      <textarea id="ft" placeholder="תארי את הדילמה, הקושי או המשבר הנוכחי...&#10;&#10;💡 לנושא כללי — הרחיבי עם דוגמה עכשווית. אין צורך בנתוני עבר." oninput="updateCount('ft','ftc')"></textarea>
+      <div class="char-count" id="ftc">0 / 1000</div>
+    </div>
+    <div class="field"><label>תאריך מפגש רצוי בפורום הקבוצתי</label><input type="date" id="fd"><div class="field-note">ימי א׳ או ה׳, 21:00 — לא חובה</div></div>
+    <button class="btn-main btn-pink" id="btnCase" onclick="submitCase()">הגשת הנושא</button>
+  </div>
+  <div id="form-enrich" class="form-card" style="display:none">
+    <div class="form-title">✨ הצעת העשרה</div>
+    <div class="field"><label>שם מלא</label><input type="text" id="en" placeholder="שם פרטי ומשפחה"></div>
+    <div class="field"><label>יש לי להציע לקבוצה העשרה ב:</label><textarea id="et" placeholder="תארי את נושא ההעשרה..." oninput="updateCount('et','etc')"></textarea><div class="char-count" id="etc">0 / 1000</div></div>
+    <div class="field"><label>אופן ההעשרה</label><select id="ef"><option value="">— בחרי —</option><option value="זום">🖥️ זום</option><option value="אצלי בבית">🏠 אצלי בבית</option><option value="מקום אחר">📍 מקום אחר</option></select></div>
+    <div class="field"><label>מתי נוח לי</label><input type="text" id="ew" placeholder="לדוגמה: ימי ראשון 20:00–21:00"></div>
+    <button class="btn-main btn-teal" id="btnEnrich" onclick="submitEnrich()">הצעת ההעשרה</button>
+  </div>
+</div>
+</div>
+<p class="page-footer">חברותא סטודנטיות למבטולוגיה ערב · ימי א׳, ה׳ | 21:00</p>
+
+<div class="modal-wrap" id="regModal"><div class="modal"><h3>רישום כמבטולוגית</h3><div class="field"><label>שמך המלא</label><input type="text" id="rn" placeholder="שם פרטי ומשפחה"></div><div class="modal-btns"><button onclick="closeModal('regModal')">ביטול</button><button class="confirm" onclick="doRegister()">אישור רישום</button></div></div></div>
+
+<div class="modal-wrap" id="editModal"><div class="modal"><h3 id="editTitle">עריכה</h3><div class="field"><label>שם מלא</label><input type="text" id="edit-name"></div><div class="field"><label>נושא</label><textarea id="edit-topic" style="min-height:80px"></textarea></div><div id="editCaseFields"><div class="field"><label>תאריך מפגש</label><input type="date" id="edit-date"></div><div class="field"><label>סטטוס</label><select id="edit-status"><option value="ממתין">🟡 ממתין לטיפול</option><option value="בתהליך">🔵 בתהליך</option><option value="נקבע">🟢 מפגש נקבע</option><option value="הושלם">✅ הושלם</option></select></div><div class="field"><label>מבטולוגית</label><input type="text" id="edit-metav"></div></div><div id="editEnrichFields" style="display:none"><div class="field"><label>אופן ההעשרה</label><select id="edit-format"><option value="">— בחרי —</option><option value="זום">🖥️ זום</option><option value="אצלי בבית">🏠 אצלי בבית</option><option value="מקום אחר">📍 מקום אחר</option></select></div><div class="field"><label>זמינות</label><input type="text" id="edit-when"></div></div><div class="modal-btns"><button onclick="closeModal('editModal')">ביטול</button><button class="confirm" id="btnSaveEdit" onclick="saveEdit()">שמירת שינויים</button></div></div></div>
+
+<div class="modal-wrap" id="delModal"><div class="modal"><h3>מחיקת רשומה</h3><p style="font-size:.85rem;color:#6B5B4F;margin-bottom:.5rem">למחוק את הרשומה של <strong id="delName"></strong>?</p><p style="font-size:.78rem;color:#A32D2D">פעולה זו אינה ניתנת לביטול.</p><div class="modal-btns"><button onclick="closeModal('delModal')">ביטול</button><button class="del-btn" id="btnDel" onclick="doDelete()">מחיקה</button></div></div></div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+let allData={cases:[],enrichments:[]};
+let pendingRegId=null,editingItem=null,deletingItem=null;
+
+async function loadData(){
+  try{const r=await fetch('/api/data');allData=await r.json();render();}
+  catch(e){document.getElementById('casesList').innerHTML='<div class="empty"><span class="empty-icon">⚠️</span>שגיאה — רעננ/י את הדף</div>';}
+}
+
+async function api(ep,body){
+  const r=await fetch(ep,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+  return await r.json();
+}
+
+function showTab(t){
+  document.querySelectorAll('.tab').forEach((el,i)=>el.classList.toggle('active',['cases','enrichments','new'][i]===t));
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.getElementById('tab-'+t).classList.add('active');
+  if(t!=='new')loadData();
+}
+
+function switchSub(t){
+  document.getElementById('form-case').style.display=t==='case'?'block':'none';
+  document.getElementById('form-enrich').style.display=t==='enrich'?'block':'none';
+  document.getElementById('st-case').classList.toggle('active',t==='case');
+  document.getElementById('st-enrich').classList.toggle('active',t==='enrich');
+}
+
+function updateCount(taId,countId){
+  const ta=document.getElementById(taId),el=document.getElementById(countId);
+  if(!ta||!el)return;
+  const n=ta.value.length;
+  el.textContent=n+' / 1000';el.classList.toggle('warn',n>800);
+  if(n>1000)ta.value=ta.value.slice(0,1000);
+}
+
+function fmtDate(d){if(!d)return'';try{return new Date(d).toLocaleDateString('he-IL');}catch(e){return d;}}
+
+function pill(s){
+  const m={ממתין:['s-w','🟡 ממתין'],בתהליך:['s-p','🔵 בתהליך'],נקבע:['s-s','🟢 נקבע'],הושלם:['s-d','✅ הושלם']};
+  const[cls,lbl]=m[s]||['s-w','🟡 ממתין'];
+  return`<span class="pill ${cls}">${lbl}</span>`;
+}
+
+function render(){
+  const cl=document.getElementById('casesList'),el=document.getElementById('enrichList');
+  if(!allData.cases.length){cl.innerHTML='<div class="empty"><span class="empty-icon">🌸</span>טרם הוגשו נושאים<br>לחצי על "הגשה חדשה"</div>';}
+  else{cl.innerHTML=allData.cases.map(c=>`<div class="card"><div class="card-top"><div><div class="card-name">${c.name}</div><div class="card-date">${fmtDate(c.submitted)}</div></div>${pill(c.status||'ממתין')}</div><div class="card-topic">${(c.topic||'').replace(/\n/g,'<br>')}</div>${c.meetingDate?`<div class="card-meta">📆 ${fmtDate(c.meetingDate)}</div>`:''}<div class="card-footer"><div><div class="metav-label">מבטולוגית</div><div class="metav-name">${c.metavtologit||'— פנויה'}</div></div><div style="display:flex;gap:4px;flex-wrap:wrap">${!c.metavtologit?`<button class="btn-reg" onclick='openReg("${c.id}")'>אני המבטולוגית</button>`:''}<button class="btn-sm" onclick='openEdit(${JSON.stringify(c).replace(/\\/g,"\\\\").replace(/'/g,"\\'")})'>✏️</button><button class="btn-sm danger" onclick='openDel("${c.id}","${c.name}","case")'>🗑️</button></div></div></div>`).join('');}
+  if(!allData.enrichments.length){el.innerHTML='<div class="empty"><span class="empty-icon">✨</span>טרם הוצעו העשרות<br>לחצי על "הגשה חדשה"</div>';}
+  else{el.innerHTML=allData.enrichments.map(e=>`<div class="card enrichment"><div class="card-top"><div><div class="card-name">${e.name}</div><div class="card-date">${fmtDate(e.submitted)}</div></div></div><div class="card-topic">${(e.topic||'').replace(/\n/g,'<br>')}</div><div style="display:flex;gap:12px;flex-wrap:wrap;font-size:.75rem;color:#0F6E56;margin-top:.3rem">${e.format?`<span>🎯 ${e.format}</span>`:''} ${e.when?`<span>🕐 ${e.when}</span>`:''}</div><div style="display:flex;gap:4px;justify-content:flex-end;margin-top:.6rem"><button class="btn-sm" onclick='openEdit(${JSON.stringify(e).replace(/\\/g,"\\\\").replace(/'/g,"\\'")})'>✏️</button><button class="btn-sm danger" onclick='openDel("${e.id}","${e.name}","enrichment")'>🗑️</button></div></div>`).join('');}
+}
+
+function openReg(id){pendingRegId=id;document.getElementById('rn').value='';document.getElementById('regModal').classList.add('open');setTimeout(()=>document.getElementById('rn').focus(),100);}
+function closeModal(id){document.getElementById(id).classList.remove('open');}
+
+async function doRegister(){
+  const n=document.getElementById('rn').value.trim();
+  if(!n){alert('נא להזין שם');return;}
+  await api('/api/update',{id:pendingRegId,type:'case',metavtologit:n,status:'בתהליך'});
+  closeModal('regModal');toast('נרשמת כמבטולוגית! 🌸');await loadData();
+}
+
+function openEdit(item){
+  editingItem=item;const isE=item.type==='enrichment';
+  document.getElementById('editTitle').textContent=isE?'✏️ עריכת העשרה':'✏️ עריכת נושא';
+  document.getElementById('edit-name').value=item.name||'';
+  document.getElementById('edit-topic').value=item.topic||'';
+  document.getElementById('editCaseFields').style.display=isE?'none':'block';
+  document.getElementById('editEnrichFields').style.display=isE?'block':'none';
+  if(!isE){document.getElementById('edit-date').value=item.meetingDate||'';document.getElementById('edit-status').value=item.status||'ממתין';document.getElementById('edit-metav').value=item.metavtologit||'';}
+  else{document.getElementById('edit-format').value=item.format||'';document.getElementById('edit-when').value=item.when||'';}
+  document.getElementById('editModal').classList.add('open');
+}
+
+async function saveEdit(){
+  const isE=editingItem.type==='enrichment';
+  const u={id:editingItem.id,type:editingItem.type,name:document.getElementById('edit-name').value.trim(),topic:document.getElementById('edit-topic').value.trim()};
+  if(!isE){u.meetingDate=document.getElementById('edit-date').value;u.status=document.getElementById('edit-status').value;u.metavtologit=document.getElementById('edit-metav').value.trim();}
+  else{u.format=document.getElementById('edit-format').value;u.when=document.getElementById('edit-when').value.trim();}
+  document.getElementById('btnSaveEdit').textContent='שומרת...';
+  await api('/api/update',u);closeModal('editModal');
+  document.getElementById('btnSaveEdit').textContent='שמירת שינויים';
+  toast('עודכן! ✏️');await loadData();
+}
+
+function openDel(id,name,type){deletingItem={id,type};document.getElementById('delName').textContent=name;document.getElementById('delModal').classList.add('open');}
+
+async function doDelete(){
+  document.getElementById('btnDel').textContent='מוחקת...';
+  await api('/api/delete',deletingItem);closeModal('delModal');
+  document.getElementById('btnDel').textContent='מחיקה';
+  toast('נמחק 🗑️');await loadData();
+}
+
+async function submitCase(){
+  const n=document.getElementById('fn').value.trim(),t=document.getElementById('ft').value.trim(),d=document.getElementById('fd').value;
+  if(!n||!t){alert('נא למלא שם ונושא');return;}
+  const btn=document.getElementById('btnCase');btn.disabled=true;btn.textContent='שולחת...';
+  await api('/api/add',{name:n,topic:t,meetingDate:d,status:'ממתין',metavtologit:'',type:'case'});
+  document.getElementById('fn').value='';document.getElementById('ft').value='';document.getElementById('fd').value='';document.getElementById('ftc').textContent='0 / 1000';
+  btn.disabled=false;btn.textContent='הגשת הנושא';toast('הוגש! 🌸');showTab('cases');
+}
+
+async function submitEnrich(){
+  const n=document.getElementById('en').value.trim(),t=document.getElementById('et').value.trim(),f=document.getElementById('ef').value,w=document.getElementById('ew').value.trim();
+  if(!n||!t){alert('נא למלא שם ונושא');return;}
+  const btn=document.getElementById('btnEnrich');btn.disabled=true;btn.textContent='שולחת...';
+  await api('/api/add',{name:n,topic:t,format:f,when:w,type:'enrichment'});
+  document.getElementById('en').value='';document.getElementById('et').value='';document.getElementById('ef').value='';document.getElementById('ew').value='';document.getElementById('etc').textContent='0 / 1000';
+  btn.disabled=false;btn.textContent='הצעת ההעשרה';toast('הוצע! ✨');showTab('enrichments');
+}
+
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2800);}
+document.querySelectorAll('.modal-wrap').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('open');}));
+loadData();
+</script>
+</body>
+</html>
