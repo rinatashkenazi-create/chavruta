@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>חברותא מבטולוגיה ערב</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Hebrew:wght@300;400;500;600&family=Noto+Serif+Hebrew:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --pink-50:#FBEAF0;--pink-100:#F4C0D1;--pink-200:#ED93B1;
+  --pink-400:#D4537E;--pink-600:#993556;--pink-800:#72243E;--pink-900:#4B1528;
+  --teal-50:#E1F5EE;--teal-200:#5DCAA5;--teal-600:#0F6E56;
+  --amber-50:#FAEEDA;--amber-800:#633806;
+  --purple-50:#EEEDFE;--purple-800:#3C3489;
+  --bg:#FDF7FA;--card:#FFFFFF;--text:#2C1018;
+  --text-soft:#72243E;--text-muted:#993556;--border:#F4C0D1;
+  --radius:14px;--radius-sm:8px;
+  --shadow:0 1px 8px rgba(180,60,100,.07);
+  --shadow-md:0 4px 20px rgba(180,60,100,.10);
+}
+html{scroll-behavior:smooth}
+body{font-family:'Noto Sans Hebrew',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:15px;line-height:1.6}
+
+.hero{background:var(--pink-50);border-bottom:1px solid var(--border);padding:1.6rem 1.2rem 1.2rem;text-align:center}
+.hero-badge{display:inline-block;background:var(--pink-100);color:var(--pink-800);font-size:11px;font-weight:600;letter-spacing:.07em;padding:.25rem .9rem;border-radius:50px;margin-bottom:.65rem}
+.hero h1{font-family:'Noto Serif Hebrew',serif;font-size:clamp(1.4rem,4vw,1.9rem);font-weight:700;color:var(--pink-800);margin-bottom:.2rem}
+.hero h1 span{color:var(--pink-400)}
+.hero-sub{font-size:.85rem;color:var(--text-muted)}
+
+.notice{background:var(--pink-50);border-right:3px solid var(--pink-200);padding:.6rem 1rem;font-size:.78rem;color:var(--pink-800);display:flex;align-items:center;gap:.5rem}
+
+.wrap{max-width:680px;margin:0 auto;padding:1rem 1rem 3rem}
+
+.tabs{display:flex;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:4px;gap:4px;margin-bottom:1.2rem;box-shadow:var(--shadow)}
+.tab{flex:1;padding:.5rem .3rem;font-size:.8rem;font-family:'Noto Sans Hebrew',sans-serif;font-weight:500;color:var(--text-muted);border:none;background:none;border-radius:10px;cursor:pointer;transition:all .2s;display:flex;flex-direction:column;align-items:center;gap:3px;line-height:1.3}
+.tab.active{background:var(--pink-400);color:#fff;box-shadow:0 2px 8px rgba(212,83,126,.25)}
+
+.section{display:none}.section.active{display:block}
+.cards-list{display:flex;flex-direction:column;gap:10px}
+
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1.1rem;box-shadow:var(--shadow);border-right:3px solid var(--pink-200);transition:box-shadow .2s}
+.card:hover{box-shadow:var(--shadow-md)}
+.card.enrichment{border-right-color:var(--teal-200)}
+
+.card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:.5rem;margin-bottom:.5rem}
+.card-name{font-size:.9rem;font-weight:600;color:var(--pink-900)}
+.card-date{font-size:.72rem;color:var(--text-muted);white-space:nowrap;margin-top:.1rem}
+.status-pill{font-size:.68rem;font-weight:600;padding:.2rem .65rem;border-radius:50px;white-space:nowrap;flex-shrink:0}
+.s-w{background:var(--amber-50);color:var(--amber-800)}
+.s-p{background:var(--purple-50);color:var(--purple-800)}
+.s-s,.s-d{background:var(--teal-50);color:var(--teal-600)}
+
+.card-topic{font-size:.85rem;color:var(--text);line-height:1.65;margin-bottom:.75rem}
+.card-meta-row{font-size:.72rem;color:var(--text-muted);display:flex;align-items:center;gap:.3rem;margin-bottom:.6rem}
+.card-footer{display:flex;align-items:center;justify-content:space-between;padding-top:.65rem;border-top:1px solid var(--pink-50);gap:.5rem;flex-wrap:wrap}
+.metav-label{font-size:.72rem;color:var(--text-muted)}
+.metav-name{font-size:.82rem;font-weight:600;color:var(--pink-800)}
+
+.btn-reg{font-size:.75rem;padding:.35rem .85rem;border-radius:50px;border:1px solid var(--pink-200);color:var(--pink-800);background:var(--pink-50);cursor:pointer;font-family:'Noto Sans Hebrew',sans-serif;transition:all .2s;white-space:nowrap}
+.btn-reg:hover{background:var(--pink-100);border-color:var(--pink-400)}
+.btn-edit{font-size:.72rem;padding:.3rem .7rem;border-radius:50px;border:1px solid var(--pink-100);color:var(--pink-600);background:none;cursor:pointer;font-family:'Noto Sans Hebrew',sans-serif;transition:all .2s}
+.btn-edit:hover{background:var(--pink-50)}
+.btn-delete{font-size:.72rem;padding:.3rem .7rem;border-radius:50px;border:1px solid #F4C0C0;color:#A32D2D;background:none;cursor:pointer;font-family:'Noto Sans Hebrew',sans-serif;transition:all .2s}
+.btn-delete:hover{background:#FFF0F0}
+.card-actions{display:flex;gap:4px;margin-right:auto}
+
+.empty{text-align:center;padding:2.5rem 1rem;color:var(--text-muted)}
+.empty-icon{font-size:2rem;margin-bottom:.5rem;opacity:.4;display:block}
+
+.form-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1.3rem;box-shadow:var(--shadow)}
+.form-title{font-family:'Noto Serif Hebrew',serif;font-size:1rem;font-weight:700;color:var(--pink-800);margin-bottom:1rem;padding-bottom:.65rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.5rem}
+.field{margin-bottom:.9rem}
+.field label{display:block;font-size:.78rem;font-weight:600;color:var(--text-soft);margin-bottom:.3rem}
+.field input,.field textarea,.field select{width:100%;padding:.6rem .85rem;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-family:'Noto Sans Hebrew',sans-serif;font-size:.88rem;color:var(--text);background:#fff;transition:border-color .2s;outline:none;appearance:none;-webkit-appearance:none}
+.field input:focus,.field textarea:focus,.field select:focus{border-color:var(--pink-400);box-shadow:0 0 0 3px rgba(212,83,126,.1)}
+.field textarea{resize:vertical;min-height:90px}
+.field-note{font-size:.72rem;color:var(--text-muted);margin-top:.25rem}
+.mic-wrap{position:relative}
+.mic-btn{position:absolute;left:8px;bottom:8px;width:32px;height:32px;border-radius:50%;border:none;background:var(--pink-50);color:var(--pink-400);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;font-size:16px;box-shadow:0 1px 4px rgba(180,60,100,.15)}
+.mic-btn:hover{background:var(--pink-100)}
+.mic-btn.recording{background:var(--pink-400);color:#fff;animation:pulse 1s infinite}
+.mic-btn.unsupported{opacity:.3;cursor:not-allowed}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(212,83,126,.4)}50%{box-shadow:0 0 0 6px rgba(212,83,126,.0)}}
+.mic-hint{font-size:.68rem;color:var(--text-muted);margin-top:.2rem;min-height:.9rem}
+
+.btn-main{width:100%;padding:.75rem;border:none;border-radius:var(--radius-sm);font-family:'Noto Sans Hebrew',sans-serif;font-size:.9rem;font-weight:600;cursor:pointer;margin-top:.3rem;transition:all .2s;letter-spacing:.02em}
+.btn-pink{background:var(--pink-400);color:#fff}.btn-pink:hover{background:var(--pink-600)}
+.btn-teal{background:var(--teal-600);color:#fff}.btn-teal:hover{background:#085041}
+.btn-main:active{transform:scale(.98)}
+.btn-main:disabled{opacity:.5;cursor:not-allowed}
+
+.sub-tabs{display:flex;gap:6px;margin-bottom:1rem}
+.sub-tab{flex:1;padding:.5rem;font-size:.82rem;font-family:'Noto Sans Hebrew',sans-serif;font-weight:500;border:1.5px solid var(--border);border-radius:var(--radius-sm);background:var(--pink-50);color:var(--text-muted);cursor:pointer;transition:all .2s;text-align:center}
+.sub-tab.active{background:var(--pink-400);border-color:var(--pink-400);color:#fff}
+
+.loading{text-align:center;padding:2rem;color:var(--text-muted);font-size:.85rem}
+.loading-spinner{display:inline-block;width:24px;height:24px;border:2px solid var(--pink-100);border-top-color:var(--pink-400);border-radius:50%;animation:spin .8s linear infinite;margin-bottom:.5rem}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.modal-wrap{display:none;position:fixed;inset:0;background:rgba(75,21,40,.4);z-index:100;align-items:center;justify-content:center;padding:1.2rem}
+.modal-wrap.open{display:flex}
+.modal{background:#fff;border-radius:var(--radius);padding:1.5rem;width:100%;max-width:400px;box-shadow:0 8px 40px rgba(180,60,100,.18)}
+.modal h3{font-family:'Noto Serif Hebrew',serif;font-size:1.05rem;font-weight:700;color:var(--pink-800);margin-bottom:1rem}
+.modal-btns{display:flex;gap:8px;margin-top:1rem}
+.modal-btns button{flex:1;padding:.65rem;border-radius:var(--radius-sm);font-family:'Noto Sans Hebrew',sans-serif;font-size:.85rem;font-weight:500;cursor:pointer;border:1.5px solid var(--border);background:var(--pink-50);color:var(--text-soft);transition:all .2s}
+.modal-btns .confirm{background:var(--pink-400);color:#fff;border-color:var(--pink-400)}.modal-btns .confirm:hover{background:var(--pink-600)}
+
+.toast{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%) translateY(80px);background:var(--pink-900);color:#fff;padding:.6rem 1.4rem;border-radius:50px;font-size:.82rem;font-family:'Noto Sans Hebrew',sans-serif;z-index:200;transition:transform .3s ease;white-space:nowrap;pointer-events:none}
+.toast.show{transform:translateX(-50%) translateY(0)}
+
+.error-banner{background:#FFF0F0;border:1px solid #F4C0C0;border-radius:var(--radius-sm);padding:.7rem 1rem;font-size:.8rem;color:#8B1A1A;margin-bottom:1rem;display:none}
+.error-banner.show{display:block}
+
+.page-footer{text-align:center;font-size:.72rem;color:var(--text-muted);padding:1.5rem 1rem 2rem;opacity:.7}
+
+/* ── SETUP SCREEN ── */
+.setup-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;box-shadow:var(--shadow);margin-bottom:1rem}
+.setup-card h2{font-family:'Noto Serif Hebrew',serif;font-size:1.1rem;color:var(--pink-800);margin-bottom:.8rem}
+.setup-step{display:flex;gap:.7rem;margin-bottom:.75rem;align-items:flex-start}
+.setup-num{width:22px;height:22px;border-radius:50%;background:var(--pink-400);color:#fff;font-size:.72rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:.1rem}
+.setup-text{font-size:.82rem;color:var(--text-soft);line-height:1.6}
+.setup-text strong{color:var(--pink-800)}
+.setup-text code{background:var(--pink-50);border:1px solid var(--pink-100);border-radius:4px;padding:.1rem .4rem;font-size:.78rem;direction:ltr;display:inline-block}
+
+@media(min-width:500px){
+  .hero{padding:2rem 2rem 1.5rem}
+  .wrap{padding:1.2rem 1.5rem 3rem}
+}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-badge">שיטת תמיכה מבטולוגית · שנה ב׳</div>
+  <h1>חברותא <span>מבטולוגיה</span> ערב</h1>
+  <p class="hero-sub">ימי א׳, ה׳ · 21:00</p>
+</div>
+
+<div class="notice">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+  המידע חסוי ונשמר בקרב הקבוצה בלבד — הרשאות מנוהלות על ידי רינת
+</div>
+
+<div class="wrap">
+
+<!-- SETUP SCREEN (shown when no URL configured) -->
+<div id="setupScreen">
+  <div class="setup-card">
+    <h2>הגדרה ראשונית — חמישה צעדים פשוטים</h2>
+
+    <div class="setup-step">
+      <div class="setup-num">1</div>
+      <div class="setup-text">פתחי <strong><a href="https://sheets.new" target="_blank">sheets.new</a></strong> וצרי גיליון חדש. שמי לו שם: <strong>חברותא מבטולוגיה</strong></div>
+    </div>
+    <div class="setup-step">
+      <div class="setup-num">2</div>
+      <div class="setup-text">בשורה 1 הכניסי את הכותרות:<br>
+      <code>timestamp</code> <code>name</code> <code>topic</code> <code>meetingDate</code> <code>status</code> <code>metavtologit</code> <code>type</code> <code>format</code> <code>when</code></div>
+    </div>
+    <div class="setup-step">
+      <div class="setup-num">3</div>
+      <div class="setup-text">בגיליון: <strong>תוספות ← Apps Script</strong> — מחקי הכל והדביקי את הקוד מקובץ <strong>Code.gs</strong> שקיבלת. שמרי ולחצי <strong>פרוס ← פריסה חדשה ← אפליקציית אינטרנט ← כל אחד ← פרוס</strong></div>
+    </div>
+    <div class="setup-step">
+      <div class="setup-num">4</div>
+      <div class="setup-text">העתיקי את ה-URL שמתקבל אחרי הפריסה והדביקי כאן:</div>
+    </div>
+
+    <div class="field" style="margin-top:.3rem">
+      <input type="text" id="apiUrlInput" placeholder="https://script.google.com/macros/s/..." dir="ltr" style="font-size:.78rem">
+    </div>
+    <button class="btn-main btn-pink" onclick="saveApiUrl()">שמרי והתחילי</button>
+  </div>
+</div>
+
+<!-- MAIN APP -->
+<div id="mainApp" style="display:none">
+
+  <div class="error-banner" id="errBanner">שגיאה בחיבור ל-Google Sheet. בדקי את ה-URL ואת הגדרות הגישה.</div>
+
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('cases')">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 12h6M9 16h4"/></svg>
+      נושאי הבטה
+    </button>
+    <button class="tab" onclick="showTab('enrichments')">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      העשרות
+    </button>
+    <button class="tab" onclick="showTab('new')">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/></svg>
+      הגשה חדשה
+    </button>
+  </div>
+
+  <div class="section active" id="tab-cases">
+    <div class="cards-list" id="casesList"><div class="loading"><div class="loading-spinner"></div><br>טוענת נתונים...</div></div>
+  </div>
+
+  <div class="section" id="tab-enrichments">
+    <div class="cards-list" id="enrichList"><div class="loading"><div class="loading-spinner"></div><br>טוענת נתונים...</div></div>
+  </div>
+
+  <div class="section" id="tab-new">
+    <div class="sub-tabs">
+      <button class="sub-tab active" id="st-case" onclick="switchSub('case')">נושא הבטה</button>
+      <button class="sub-tab" id="st-enrich" onclick="switchSub('enrich')">הצעת העשרה</button>
+    </div>
+
+    <div id="form-case" class="form-card">
+      <div class="form-title">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ED93B1" stroke-width="2"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
+        הגשת נושא הבטה
+      </div>
+      <div class="field"><label>שם מלא מביטה</label><input type="text" id="fn" placeholder="שם פרטי ומשפחה"></div>
+      <div class="field">
+        <label>נושא / סיטואציה / קושי</label>
+        <div class="mic-wrap">
+          <textarea id="ft" placeholder="תארי את הדילמה, הקושי או המשבר הנוכחי שמאתגר אותך.&#10;&#10;💡 לנושא כללי — הרחיבי עם דוגמה עכשווית. אין צורך בנתוני עבר אישיים." style="padding-left:44px" maxlength="800" oninput="updateCount('ft','ftCount')"></textarea>
+          <div style="font-size:.68rem;color:var(--text-muted);text-align:left;margin-top:2px"><span id="ftCount">0</span>/800 תווים</div>
+          <button class="mic-btn" id="micBtn" onclick="toggleMic('ft','micBtn','micHint')" title="הקלטה קולית">🎤</button>
+        </div>
+        <div class="mic-hint" id="micHint"></div>
+      </div>
+      <div class="field">
+        <label>תאריך מפגש רצוי בפורום הקבוצתי</label>
+        <input type="date" id="fd">
+        <div class="field-note">ימי א׳ או ה׳, 21:00 — לא חובה</div>
+      </div>
+      <button class="btn-main btn-pink" id="btnCase" onclick="submitCase()">הגשת הנושא</button>
+    </div>
+
+    <div id="form-enrich" class="form-card" style="display:none">
+      <div class="form-title">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5DCAA5" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        הצעת העשרה
+      </div>
+      <div class="field"><label>שם מלא</label><input type="text" id="en" placeholder="שם פרטי ומשפחה"></div>
+      <div class="field"><label>יש לי להציע לקבוצה העשרה ב:</label>
+        <div class="mic-wrap">
+          <textarea id="et" placeholder="תארי את נושא ההעשרה — כלי, שיטה, תחום ידע..." style="padding-left:44px" maxlength="800" oninput="updateCount('et','etCount')"></textarea>
+          <div style="font-size:.68rem;color:var(--text-muted);text-align:left;margin-top:2px"><span id="etCount">0</span>/800 תווים</div>
+          <button class="mic-btn" id="micBtnE" onclick="toggleMic('et','micBtnE','micHintE')" title="הקלטה קולית">🎤</button>
+        </div>
+        <div class="mic-hint" id="micHintE"></div>
+      </div>
+      <div class="field">
+        <label>אופן ההעשרה</label>
+        <select id="ef">
+          <option value="">— בחרי —</option>
+          <option value="זום">🖥️ זום</option>
+          <option value="אצלי בבית">🏠 אצלי בבית</option>
+          <option value="מקום אחר">📍 מקום אחר</option>
+        </select>
+      </div>
+      <div class="field"><label>מתי נוח לי (תאריכים ושעות)</label><input type="text" id="ew" placeholder="לדוגמה: ימי ראשון 20:00–21:00"></div>
+      <button class="btn-main btn-teal" id="btnEnrich" onclick="submitEnrich()">הצעת ההעשרה</button>
+    </div>
+  </div>
+
+</div><!-- /mainApp -->
+
+</div><!-- /wrap -->
+
+<p class="page-footer">חברותא סטודנטיות למבטולוגיה ערב · ימי א׳, ה׳ | 21:00</p>
+
+<!-- EDIT MODAL -->
+<div class="modal-wrap" id="editModal">
+  <div class="modal">
+    <h3 id="editModalTitle">עריכת נושא</h3>
+    <div class="field"><label>שם מלא</label><input type="text" id="edit-name" placeholder="שם פרטי ומשפחה"></div>
+    <div class="field"><label id="editTopicLabel">נושא / סיטואציה / קושי</label><textarea id="edit-topic" style="min-height:80px"></textarea></div>
+    <div id="editCaseFields">
+      <div class="field"><label>תאריך מפגש רצוי</label><input type="date" id="edit-date"></div>
+      <div class="field"><label>סטטוס</label>
+        <select id="edit-status">
+          <option value="ממתין">🟡 ממתין לטיפול</option>
+          <option value="בתהליך">🔵 בתהליך</option>
+          <option value="נקבע">🟢 מפגש נקבע</option>
+          <option value="הושלם">✅ הושלם</option>
+        </select>
+      </div>
+      <div class="field"><label>מבטולוגית</label><input type="text" id="edit-metav" placeholder="שם המבטולוגית"></div>
+    </div>
+    <div id="editEnrichFields" style="display:none">
+      <div class="field"><label>אופן ההעשרה</label>
+        <select id="edit-format">
+          <option value="">— בחרי —</option>
+          <option value="זום">🖥️ זום</option>
+          <option value="אצלי בבית">🏠 אצלי בבית</option>
+          <option value="מקום אחר">📍 מקום אחר</option>
+        </select>
+      </div>
+      <div class="field"><label>זמינות</label><input type="text" id="edit-when" placeholder="ימים ושעות נוחים"></div>
+    </div>
+    <div class="modal-btns">
+      <button onclick="closeEditModal()">ביטול</button>
+      <button class="confirm" id="btnSaveEdit" onclick="saveEdit()">שמירת שינויים</button>
+    </div>
+  </div>
+</div>
+
+<!-- DELETE CONFIRM MODAL -->
+<div class="modal-wrap" id="deleteModal">
+  <div class="modal">
+    <h3>מחיקת רשומה</h3>
+    <p style="font-size:.85rem;color:var(--text-soft);margin-bottom:.5rem">האם למחוק את הרשומה של <strong id="deleteItemName"></strong>?</p>
+    <p style="font-size:.78rem;color:#A32D2D">פעולה זו אינה ניתנת לביטול.</p>
+    <div class="modal-btns">
+      <button onclick="closeDeleteModal()">ביטול</button>
+      <button class="confirm" id="btnConfirmDelete" style="background:#C0392B;border-color:#C0392B" onclick="doDelete()">מחיקה</button>
+    </div>
+  </div>
+</div>
+
+<!-- REGISTER MODAL -->
+<div class="modal-wrap" id="regModal">
+  <div class="modal">
+    <h3>רישום כמבטולוגית</h3>
+    <div class="field"><label>שמך המלא</label><input type="text" id="rn" placeholder="שם פרטי ומשפחה"></div>
+    <div class="modal-btns">
+      <button onclick="closeModal()">ביטול</button>
+      <button class="confirm" id="btnReg" onclick="doRegister()">אישור רישום</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const URL_KEY = 'chavruta_api_url';
+let API_URL = localStorage.getItem(URL_KEY) || 'https://script.google.com/macros/s/AKfycbxtTaKZGe1UKAl61UGlph-cHbvM5uLZHnzs6qR_j7KyKs_Pzc-7MkD-R2dEFqNNLULK/exec';
+let allData = [];
+let pendingItem = null;
+
+function saveApiUrl() {
+  const url = document.getElementById('apiUrlInput').value.trim();
+  if (!url.startsWith('https://script.google.com')) {
+    alert('נא להדביק URL תקין של Apps Script');
+    return;
+  }
+  localStorage.setItem(URL_KEY, url);
+  API_URL = url;
+  
+let editingItem = null;
+let deletingItem = null;
+
+function openEdit(item) {
+  editingItem = item;
+  const isEnrich = item.type === 'enrichment';
+  document.getElementById('editModalTitle').textContent = isEnrich ? 'עריכת העשרה' : 'עריכת נושא';
+  document.getElementById('edit-name').value = item.name || '';
+  document.getElementById('edit-topic').value = item.topic || '';
+  document.getElementById('editCaseFields').style.display = isEnrich ? 'none' : 'block';
+  document.getElementById('editEnrichFields').style.display = isEnrich ? 'block' : 'none';
+  if (!isEnrich) {
+    document.getElementById('edit-date').value = item.meetingDate || '';
+    document.getElementById('edit-status').value = item.status || 'ממתין';
+    document.getElementById('edit-metav').value = item.metavtologit || '';
+  } else {
+    document.getElementById('edit-format').value = item.format || '';
+    document.getElementById('edit-when').value = item.when || '';
+  }
+  document.getElementById('editModal').classList.add('open');
+}
+
+function openEditEnrich(item) { openEdit(item); }
+
+function closeEditModal() {
+  document.getElementById('editModal').classList.remove('open');
+  editingItem = null;
+}
+
+async function saveEdit() {
+  const name = document.getElementById('edit-name').value.trim();
+  const topic = document.getElementById('edit-topic').value.trim();
+  if (!name || !topic) { alert('נא למלא שם ונושא'); return; }
+  setLoading('btnSaveEdit', true, 'שומרת...');
+  const isEnrich = editingItem.type === 'enrichment';
+  const payload = {
+    action: 'edit',
+    timestamp: editingItem.timestamp,
+    name, topic,
+    type: editingItem.type
+  };
+  if (!isEnrich) {
+    payload.meetingDate = document.getElementById('edit-date').value;
+    payload.status = document.getElementById('edit-status').value;
+    payload.metavtologit = document.getElementById('edit-metav').value.trim();
+  } else {
+    payload.format = document.getElementById('edit-format').value;
+    payload.when = document.getElementById('edit-when').value.trim();
+  }
+  try {
+    await apiPost(payload);
+    closeEditModal();
+    showToast('הרשומה עודכנה בהצלחה! ✏️');
+    await loadData();
+  } catch(e) { alert('שגיאה — נסי שוב'); }
+  setLoading('btnSaveEdit', false, 'שמירת שינויים');
+}
+
+function confirmDelete(item) {
+  deletingItem = item;
+  document.getElementById('deleteItemName').textContent = item.name;
+  document.getElementById('deleteModal').classList.add('open');
+}
+
+function closeDeleteModal() {
+  document.getElementById('deleteModal').classList.remove('open');
+  deletingItem = null;
+}
+
+async function doDelete() {
+  setLoading('btnConfirmDelete', true, 'מוחקת...');
+  try {
+    await apiPost({ action: 'delete', timestamp: deletingItem.timestamp, name: deletingItem.name });
+    closeDeleteModal();
+    showToast('הרשומה נמחקה 🗑️');
+    await loadData();
+  } catch(e) { alert('שגיאה — נסי שוב'); }
+  setLoading('btnConfirmDelete', false, 'מחיקה');
+}
+
+
+// ── SPEECH RECOGNITION ──
+let recognition = null;
+let isRecording = false;
+let activeMicBtn = null;
+let activeHint = null;
+
+
+function updateCount(taId, countId) {
+  const ta = document.getElementById(taId);
+  const counter = document.getElementById(countId);
+  if (ta && counter) {
+    counter.textContent = ta.value.length;
+    counter.style.color = ta.value.length > 700 ? '#C05A3A' : 'var(--text-muted)';
+  }
+}
+
+function initSpeech() {
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SR) {
+    document.querySelectorAll('.mic-btn').forEach(b => {
+      b.classList.add('unsupported');
+      b.title = 'התמלול הקולי לא נתמך בדפדפן זה';
+    });
+    return null;
+  }
+  const r = new SR();
+  r.lang = 'he-IL';
+  r.continuous = true;
+  r.interimResults = true;
+  return r;
+}
+
+function toggleMic(textareaId, btnId, hintId) {
+  const btn = document.getElementById(btnId);
+  if (btn.classList.contains('unsupported')) return;
+
+  const textarea = document.getElementById(textareaId);
+  const hint = document.getElementById(hintId);
+
+  if (isRecording) {
+    stopMic();
+    return;
+  }
+
+  recognition = initSpeech();
+  if (!recognition) return;
+
+  isRecording = true;
+  activeMicBtn = btn;
+  activeHint = hint;
+  btn.classList.add('recording');
+  btn.textContent = '⏹️';
+  hint.textContent = '🔴 מאזינה... דברי עכשיו';
+
+  let baseText = textarea.value;
+
+  recognition.onresult = function(e) {
+    let interim = '';
+    let final = '';
+    for (let i = e.resultIndex; i < e.results.length; i++) {
+      const t = e.results[i][0].transcript;
+      if (e.results[i].isFinal) final += t;
+      else interim += t;
+    }
+    if (final) baseText += (baseText && !baseText.endsWith(' ') ? ' ' : '') + final;
+    textarea.value = baseText + (interim ? ' ' + interim : '');
+    textarea.scrollTop = textarea.scrollHeight;
+    // update counter
+    const countEl = document.getElementById(textareaId === 'ft' ? 'ftCount' : 'etCount');
+    if (countEl) { countEl.textContent = textarea.value.length; countEl.style.color = textarea.value.length > 700 ? '#C05A3A' : 'var(--text-muted)'; }
+  };
+
+  recognition.onerror = function(e) {
+    stopMic();
+    if (e.error === 'not-allowed') hint.textContent = '⚠️ נא לאשר גישה למיקרופון';
+    else hint.textContent = '⚠️ שגיאה בהקלטה — נסי שוב';
+  };
+
+  recognition.onend = function() {
+    if (isRecording) recognition.start(); // keep going until user stops
+  };
+
+  recognition.start();
+}
+
+function stopMic() {
+  isRecording = false;
+  if (recognition) { recognition.onend = null; recognition.stop(); recognition = null; }
+  if (activeMicBtn) { activeMicBtn.classList.remove('recording'); activeMicBtn.textContent = '🎤'; }
+  if (activeHint) { activeHint.textContent = '✅ ההקלטה הסתיימה — ערכי לפי הצורך'; }
+  activeMicBtn = null; activeHint = null;
+}
+
+initApp();
+}
+
+function initApp() {
+  if (!API_URL) {
+    document.getElementById('setupScreen').style.display = 'block';
+    document.getElementById('mainApp').style.display = 'none';
+  } else {
+    document.getElementById('setupScreen').style.display = 'none';
+    document.getElementById('mainApp').style.display = 'block';
+    loadData();
+  }
+}
+
+async function loadData() {
+  return new Promise((resolve) => {
+    const cb = 'cb_' + Date.now();
+    const script = document.createElement('script');
+    window[cb] = function(json) {
+      delete window[cb];
+      try { document.head.removeChild(script); } catch(e) {}
+      if (json && json.ok) {
+        allData = json.data;
+        document.getElementById('errBanner').classList.remove('show');
+        render();
+      } else { showErr(); }
+      resolve();
+    };
+    script.onerror = function() { showErr(); resolve(); };
+    script.src = API_URL + '?callback=' + cb + '&t=' + Date.now();
+    document.head.appendChild(script);
+    setTimeout(() => { showErr(); resolve(); }, 10000);
+  });
+}
+
+function showErr() {
+  document.getElementById('errBanner').classList.add('show');
+  document.getElementById('casesList').innerHTML = `<div class="empty"><span class="empty-icon">⚠️</span>לא ניתן לטעון נתונים</div>`;
+  document.getElementById('enrichList').innerHTML = '';
+}
+
+async function apiPost(payload) {
+  return new Promise((resolve, reject) => {
+    const cb = 'cb_' + Date.now() + '_' + Math.random().toString(36).slice(2);
+    const script = document.createElement('script');
+    const encoded = encodeURIComponent(JSON.stringify(payload));
+    const timer = setTimeout(() => {
+      delete window[cb];
+      try { document.head.removeChild(script); } catch(e) {}
+      reject(new Error('timeout'));
+    }, 12000);
+    window[cb] = function(json) {
+      clearTimeout(timer);
+      delete window[cb];
+      try { document.head.removeChild(script); } catch(e) {}
+      if (json && json.ok) resolve(json);
+      else reject(new Error((json && json.error) || 'api error'));
+    };
+    script.onerror = function() {
+      clearTimeout(timer);
+      delete window[cb];
+      try { document.head.removeChild(script); } catch(e) {}
+      reject(new Error('script error'));
+    };
+    script.src = API_URL + '?callback=' + cb + '&payload=' + encoded + '&t=' + Date.now();
+    document.head.appendChild(script);
+  });
+}
+
+function showTab(t) {
+  document.querySelectorAll('.tab').forEach((el, i) => {
+    el.classList.toggle('active', ['cases','enrichments','new'][i] === t);
+  });
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.getElementById('tab-' + t).classList.add('active');
+  if (t !== 'new') loadData();
+}
+
+function switchSub(t) {
+  document.getElementById('form-case').style.display = t === 'case' ? 'block' : 'none';
+  document.getElementById('form-enrich').style.display = t === 'enrich' ? 'block' : 'none';
+  document.getElementById('st-case').classList.toggle('active', t === 'case');
+  document.getElementById('st-enrich').classList.toggle('active', t === 'enrich');
+}
+
+function fmtDate(d) {
+  if (!d) return '';
+  try { return new Date(d).toLocaleDateString('he-IL'); } catch(e) { return d; }
+}
+
+function statusPill(s) {
+  const map = {
+    'ממתין':['s-w','🟡 ממתין לטיפול'],
+    'בתהליך':['s-p','🔵 בתהליך'],
+    'נקבע':['s-s','🟢 מפגש נקבע'],
+    'הושלם':['s-d','✅ הושלם']
+  };
+  const [cls, lbl] = map[s] || ['s-w','🟡 ממתין'];
+  return `<span class="status-pill ${cls}">${lbl}</span>`;
+}
+
+function render() {
+  const cases = allData.filter(r => r.type !== 'enrichment');
+  const enrichments = allData.filter(r => r.type === 'enrichment');
+  const cl = document.getElementById('casesList');
+  const el = document.getElementById('enrichList');
+
+  if (!cases.length) {
+    cl.innerHTML = `<div class="empty"><span class="empty-icon">🌸</span>טרם הוגשו נושאים<br>לחצי על "הגשה חדשה" כדי להתחיל</div>`;
+  } else {
+    cl.innerHTML = cases.map((c, i) => `
+      <div class="card">
+        <div class="card-top">
+          <div><div class="card-name">${c.name}</div><div class="card-date">${fmtDate(c.timestamp)}</div></div>
+          ${statusPill(c.status || 'ממתין')}
+        </div>
+        <div class="card-topic">${(c.topic||'').replace(/\n/g,'<br>')}</div>
+        ${c.meetingDate ? `<div class="card-meta-row">📆 מפגש רצוי: ${fmtDate(c.meetingDate)}</div>` : ''}
+        <div class="card-footer">
+          <div>
+            <div class="metav-label">מבטולוגית</div>
+            <div class="metav-name">${c.metavtologit || '— פנויה לרישום'}</div>
+          </div>
+          ${!c.metavtologit ? `<button class="btn-reg" onclick='openReg(${JSON.stringify(c)})'>אני רוצה להיות המבטולוגית</button>` : ''}
+          <div class="card-actions">
+            <button class="btn-edit" onclick='openEdit(${JSON.stringify(c)})'>✏️ עריכה</button>
+            <button class="btn-delete" onclick='confirmDelete(${JSON.stringify(c)})'>🗑️ מחיקה</button>
+          </div>
+        </div>
+      </div>`).join('');
+  }
+
+  if (!enrichments.length) {
+    el.innerHTML = `<div class="empty"><span class="empty-icon">✨</span>טרם הוצעו העשרות<br>לחצי על "הגשה חדשה" כדי להציע</div>`;
+  } else {
+    el.innerHTML = enrichments.map(e => `
+      <div class="card enrichment">
+        <div class="card-top">
+          <div><div class="card-name">${e.name}</div><div class="card-date">${fmtDate(e.timestamp)}</div></div>
+        </div>
+        <div class="card-topic">${(e.topic||'').replace(/\n/g,'<br>')}</div>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;font-size:.75rem;color:var(--teal-600);margin-top:.3rem">
+          ${e.format ? `<span>🎯 ${e.format}</span>` : ''}
+          ${e.when ? `<span>🕐 ${e.when}</span>` : ''}
+        </div>
+      </div>`).join('');
+  }
+}
+
+function openReg(item) {
+  pendingItem = item;
+  document.getElementById('rn').value = '';
+  document.getElementById('regModal').classList.add('open');
+  setTimeout(() => document.getElementById('rn').focus(), 100);
+}
+
+function closeModal() {
+  document.getElementById('regModal').classList.remove('open');
+  pendingItem = null;
+}
+
+async function doRegister() {
+  const n = document.getElementById('rn').value.trim();
+  if (!n) { alert('נא להזין שם'); return; }
+  setLoading('btnReg', true, 'שומרת...');
+  try {
+    await apiPost({ action: 'update', timestamp: pendingItem.timestamp, name: pendingItem.name, metavtologit: n, status: 'בתהליך' });
+    closeModal();
+    showToast('נרשמת כמבטולוגית בהצלחה! 🌸');
+    await loadData();
+  } catch(e) { alert('שגיאה — נסי שוב'); }
+  setLoading('btnReg', false, 'אישור רישום');
+}
+
+async function submitCase() {
+  const n = document.getElementById('fn').value.trim();
+  const t = document.getElementById('ft').value.trim();
+  const d = document.getElementById('fd').value;
+  if (!n || !t) { alert('נא למלא שם ונושא'); return; }
+  setLoading('btnCase', true, 'שולחת...');
+  try {
+    await apiPost({ action: 'add', timestamp: new Date().toISOString(), name: n, topic: t, meetingDate: d, status: 'ממתין', metavtologit: '', type: 'case' });
+    document.getElementById('fn').value = '';
+    document.getElementById('ft').value = '';
+    document.getElementById('fd').value = '';
+    showToast('הנושא הוגש בהצלחה! 🌸');
+    showTab('cases');
+  } catch(e) { alert('שגיאה — נסי שוב'); }
+  setLoading('btnCase', false, 'הגשת הנושא');
+}
+
+async function submitEnrich() {
+  const n = document.getElementById('en').value.trim();
+  const t = document.getElementById('et').value.trim();
+  const f = document.getElementById('ef').value;
+  const w = document.getElementById('ew').value.trim();
+  if (!n || !t) { alert('נא למלא שם ונושא'); return; }
+  setLoading('btnEnrich', true, 'שולחת...');
+  try {
+    await apiPost({ action: 'add', timestamp: new Date().toISOString(), name: n, topic: t, format: f, when: w, type: 'enrichment' });
+    document.getElementById('en').value = '';
+    document.getElementById('et').value = '';
+    document.getElementById('ef').value = '';
+    document.getElementById('ew').value = '';
+    showToast('ההעשרה הוצעה בהצלחה! ✨');
+    showTab('enrichments');
+  } catch(e) { alert('שגיאה — נסי שוב'); }
+  setLoading('btnEnrich', false, 'הצעת ההעשרה');
+}
+
+function setLoading(id, loading, text) {
+  const btn = document.getElementById(id);
+  if (!btn) return;
+  btn.disabled = loading;
+  btn.textContent = loading ? text : text;
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+document.getElementById('regModal').addEventListener('click', function(e) { if (e.target === this) closeModal(); });
+document.getElementById('editModal').addEventListener('click', function(e) { if (e.target === this) closeEditModal(); });
+document.getElementById('deleteModal').addEventListener('click', function(e) { if (e.target === this) closeDeleteModal(); });
+
+
+let editingItem = null;
+let deletingItem = null;
+
+function openEdit(item) {
+  editingItem = item;
+  const isEnrich = item.type === 'enrichment';
+  document.getElementById('editModalTitle').textContent = isEnrich ? 'עריכת העשרה' : 'עריכת נושא';
+  document.getElementById('edit-name').value = item.name || '';
+  document.getElementById('edit-topic').value = item.topic || '';
+  document.getElementById('editCaseFields').style.display = isEnrich ? 'none' : 'block';
+  document.getElementById('editEnrichFields').style.display = isEnrich ? 'block' : 'none';
+  if (!isEnrich) {
+    document.getElementById('edit-date').value = item.meetingDate || '';
+    document.getElementById('edit-status').value = item.status || 'ממתין';
+    document.getElementById('edit-metav').value = item.metavtologit || '';
+  } else {
+    document.getElementById('edit-format').value = item.format || '';
+    document.getElementById('edit-when').value = item.when || '';
+  }
+  document.getElementById('editModal').classList.add('open');
+}
+
+function openEditEnrich(item) { openEdit(item); }
+
+function closeEditModal() {
+  document.getElementById('editModal').classList.remove('open');
+  editingItem = null;
+}
+
+async function saveEdit() {
+  const name = document.getElementById('edit-name').value.trim();
+  const topic = document.getElementById('edit-topic').value.trim();
+  if (!name || !topic) { alert('נא למלא שם ונושא'); return; }
+  setLoading('btnSaveEdit', true, 'שומרת...');
+  const isEnrich = editingItem.type === 'enrichment';
+  const payload = {
+    action: 'edit',
+    timestamp: editingItem.timestamp,
+    name, topic,
+    type: editingItem.type
+  };
+  if (!isEnrich) {
+    payload.meetingDate = document.getElementById('edit-date').value;
+    payload.status = document.getElementById('edit-status').value;
+    payload.metavtologit = document.getElementById('edit-metav').value.trim();
+  } else {
+    payload.format = document.getElementById('edit-format').value;
+    payload.when = document.getElementById('edit-when').value.trim();
+  }
+  try {
+    await apiPost(payload);
+    closeEditModal();
+    showToast('הרשומה עודכנה בהצלחה! ✏️');
+    await loadData();
+  } catch(e) { alert('שגיאה — נסי שוב'); }
+  setLoading('btnSaveEdit', false, 'שמירת שינויים');
+}
+
+function confirmDelete(item) {
+  deletingItem = item;
+  document.getElementById('deleteItemName').textContent = item.name;
+  document.getElementById('deleteModal').classList.add('open');
+}
+
+function closeDeleteModal() {
+  document.getElementById('deleteModal').classList.remove('open');
+  deletingItem = null;
+}
+
+async function doDelete() {
+  setLoading('btnConfirmDelete', true, 'מוחקת...');
+  try {
+    await apiPost({ action: 'delete', timestamp: deletingItem.timestamp, name: deletingItem.name });
+    closeDeleteModal();
+    showToast('הרשומה נמחקה 🗑️');
+    await loadData();
+  } catch(e) { alert('שגיאה — נסי שוב'); }
+  setLoading('btnConfirmDelete', false, 'מחיקה');
+}
+
+
+// ── SPEECH RECOGNITION ──
+let recognition = null;
+let isRecording = false;
+let activeMicBtn = null;
+let activeHint = null;
+
+
+function updateCount(taId, countId) {
+  const ta = document.getElementById(taId);
+  const counter = document.getElementById(countId);
+  if (ta && counter) {
+    counter.textContent = ta.value.length;
+    counter.style.color = ta.value.length > 700 ? '#C05A3A' : 'var(--text-muted)';
+  }
+}
+
+function initSpeech() {
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SR) {
+    document.querySelectorAll('.mic-btn').forEach(b => {
+      b.classList.add('unsupported');
+      b.title = 'התמלול הקולי לא נתמך בדפדפן זה';
+    });
+    return null;
+  }
+  const r = new SR();
+  r.lang = 'he-IL';
+  r.continuous = true;
+  r.interimResults = true;
+  return r;
+}
+
+function toggleMic(textareaId, btnId, hintId) {
+  const btn = document.getElementById(btnId);
+  if (btn.classList.contains('unsupported')) return;
+
+  const textarea = document.getElementById(textareaId);
+  const hint = document.getElementById(hintId);
+
+  if (isRecording) {
+    stopMic();
+    return;
+  }
+
+  recognition = initSpeech();
+  if (!recognition) return;
+
+  isRecording = true;
+  activeMicBtn = btn;
+  activeHint = hint;
+  btn.classList.add('recording');
+  btn.textContent = '⏹️';
+  hint.textContent = '🔴 מאזינה... דברי עכשיו';
+
+  let baseText = textarea.value;
+
+  recognition.onresult = function(e) {
+    let interim = '';
+    let final = '';
+    for (let i = e.resultIndex; i < e.results.length; i++) {
+      const t = e.results[i][0].transcript;
+      if (e.results[i].isFinal) final += t;
+      else interim += t;
+    }
+    if (final) baseText += (baseText && !baseText.endsWith(' ') ? ' ' : '') + final;
+    textarea.value = baseText + (interim ? ' ' + interim : '');
+    textarea.scrollTop = textarea.scrollHeight;
+    // update counter
+    const countEl = document.getElementById(textareaId === 'ft' ? 'ftCount' : 'etCount');
+    if (countEl) { countEl.textContent = textarea.value.length; countEl.style.color = textarea.value.length > 700 ? '#C05A3A' : 'var(--text-muted)'; }
+  };
+
+  recognition.onerror = function(e) {
+    stopMic();
+    if (e.error === 'not-allowed') hint.textContent = '⚠️ נא לאשר גישה למיקרופון';
+    else hint.textContent = '⚠️ שגיאה בהקלטה — נסי שוב';
+  };
+
+  recognition.onend = function() {
+    if (isRecording) recognition.start(); // keep going until user stops
+  };
+
+  recognition.start();
+}
+
+function stopMic() {
+  isRecording = false;
+  if (recognition) { recognition.onend = null; recognition.stop(); recognition = null; }
+  if (activeMicBtn) { activeMicBtn.classList.remove('recording'); activeMicBtn.textContent = '🎤'; }
+  if (activeHint) { activeHint.textContent = '✅ ההקלטה הסתיימה — ערכי לפי הצורך'; }
+  activeMicBtn = null; activeHint = null;
+}
+
+initApp();
+</script>
+</body>
+</html>
