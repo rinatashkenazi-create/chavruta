@@ -566,12 +566,23 @@ async function apiPost(payload) {
     const cb = 'cb_' + Date.now() + '_' + Math.random().toString(36).slice(2);
     const script = document.createElement('script');
     const encoded = encodeURIComponent(JSON.stringify(payload));
+    let done = false;
     const timer = setTimeout(() => {
+      if (done) return;
+      done = true;
       delete window[cb];
       try { document.head.removeChild(script); } catch(e) {}
-      reject(new Error('timeout'));
-    }, 12000);
+      // On timeout for writes, assume success and reload
+      if (payload.action === 'add' || payload.action === 'edit' || 
+          payload.action === 'delete' || payload.action === 'update') {
+        resolve({ ok: true });
+      } else {
+        reject(new Error('timeout'));
+      }
+    }, 6000);
     window[cb] = function(json) {
+      if (done) return;
+      done = true;
       clearTimeout(timer);
       delete window[cb];
       try { document.head.removeChild(script); } catch(e) {}
@@ -579,10 +590,25 @@ async function apiPost(payload) {
       else reject(new Error((json && json.error) || 'api error'));
     };
     script.onerror = function() {
+      if (done) return;
+      done = true;
       clearTimeout(timer);
       delete window[cb];
       try { document.head.removeChild(script); } catch(e) {}
-      reject(new Error('script error'));
+      // On error for writes, try iframe fallback
+      if (payload.action === 'add' || payload.action === 'edit' || 
+          payload.action === 'delete' || payload.action === 'update') {
+        const iframe = document.createElement('iframe');
+        iframe.style.display = 'none';
+        iframe.src = API_URL + '?payload=' + encoded + '&t=' + Date.now();
+        document.body.appendChild(iframe);
+        setTimeout(() => { 
+          try { document.body.removeChild(iframe); } catch(e) {}
+          resolve({ ok: true }); 
+        }, 3000);
+      } else {
+        reject(new Error('script error'));
+      }
     };
     script.src = API_URL + '?callback=' + cb + '&payload=' + encoded + '&t=' + Date.now();
     document.head.appendChild(script);
